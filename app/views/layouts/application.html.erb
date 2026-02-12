@@ -14,35 +14,46 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <nav style="background-color: #f8f9fa; padding: 10px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between;">
-      <div>
-        <%= link_to "Our portal.", root_path, style: "font-weight: bold; text-decoration: none; color: black;" %>
-      </div>
+    <nav class="container-fluid" style="padding: 0 60px; border-bottom: 1px solid #FFFFFF22;">
+		  <ul>
+			  <li>
+				<%= link_to root_path, style: "text-decoration: none;" do %>
+				  <h2 style="margin: 0; color: #0081c9; font-weight: bold;font-family: 'Montserrat', sans-serif;">Our portal</h2>
+				<% end %>
+			  </li>
+		  </ul>
+		  <ul>
+			<% if user_signed_in? %>
+			  <li><small>Hello, <%= current_user.email %> !</small></li>
+			  <li><%= link_to "Profile", edit_user_registration_path %></li>
+			  <li>
+				<%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "outline", style: "display: inline; width: auto; margin: 0; padding: 5px 10px;" %>
+			  </li>
+			<% else %>
+			  <li><%= link_to "Log In", new_user_session_path %></li>
+			  <li><%= link_to "Sign Up", new_user_registration_path, role: "button" %></li>
+			<% end %>
+		  </ul>
+	</nav>
 
-      <div>
-        <% if user_signed_in? %>
-          <span style="margin-right: 10px;">Γεια σου, <%= current_user.email %>!</span>
-          <%= link_to "Επεξεργασία Προφίλ", edit_user_registration_path, style: "margin-right: 10px;" %>
-          
-          <%= button_to "Αποσύνδεση", destroy_user_session_path, method: :delete, style: "cursor: pointer;" %>
-          
-        <% else %>
-          <%= link_to "Είσοδος", new_user_session_path, style: "margin-right: 10px;", data: { turbo: false } %>
-          <%= link_to "Εγγραφή", new_user_registration_path, data: { turbo: false } %>
-        <% end %>
-      </div>
-    </nav>
+    <div class="container">
+	  <% if notice %>
+		<ins style="color: green;"><%= notice %></ins>
+	  <% end %>
+	  <% if alert %>
+		<mark style="background: #ffcccc; color: #cc0000; padding: 5px;"><%= alert %></mark>
+	  <% end %>
+	</div>
 
-    <p style="color: green"><%= notice %></p>
-    <p style="color: red"><%= alert %></p>
-
-    <%= yield %>
+    <main style="max-width: 800px; margin: 0 auto; padding: 20px;">
+		<%= yield %>
+	</main>
 
   </body>
 </html>

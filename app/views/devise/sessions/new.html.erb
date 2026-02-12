@@ -1,0 +1,52 @@
+<h2 style="text-align: center; font-family: 'Montserrat', sans-serif;">Log In</h2>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "login-form" }) do |f| %>
+  
+  <div class="field">
+    <%= f.label :email %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password" %>
+    
+    <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
+      <div style="text-align: left; margin-top: -10px; margin-bottom: 20px;">
+        <%= link_to "Forgot your password?", new_password_path(resource_name), style: "font-size: 0.7rem; text-decoration: none;margin-left:20px;" %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if devise_mapping.rememberable? %>
+    <div class="remember-group">
+      <span class="remember-text">Remember me</span>
+      <%= f.check_box :remember_me %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit "Log in", class: "login-submit" %>
+  </div>
+
+  <div class="omniauth-section" style="margin-top:50px;">
+    <%- if devise_mapping.omniauthable? %>
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <%= button_to omniauth_authorize_path(resource_name, provider), 
+            method: :post, 
+            data: { turbo: false }, 
+            class: "btn-social #{provider}" do %>
+          <div class="btn-content">
+             <% if provider.to_s.include?('google') %>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" width="18">
+            <% elsif provider.to_s.include?('facebook') %>
+              <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Facebook_f_logo_%282021%29.svg" width="18">
+            <% end %>
+            Σύνδεση με <%= provider.to_s.titleize.gsub('Oauth2', '') %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+

@@ -1,0 +1,17 @@
+<h2 style="text-align: center;margin-top: 50px;" >Password Reset</h2>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <p style="margin-top: 50px;"><%= f.label :email %></p>
+    <p><%= f.email_field :email, autofocus: true, autocomplete: "email",placeholder: "Email" %></p>
+  </div>
+
+  <div class="actions" style="display: flex; justify-content: center; margin-top: 20px;">
+	  <%= f.submit "Send", style: "width: 150px !important; height: 50px !important; display: flex; align-items: center; justify-content: center; padding: 0 !important;
+	  " %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>

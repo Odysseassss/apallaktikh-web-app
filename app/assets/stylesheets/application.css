@@ -1,10 +1,106 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* Form για κεντραρισμα βασικού περιεχομένου*/
+main form {
+  display: block !important;
+  max-width: 450px !important;
+  margin: 0 auto !important;
+}
+nav {
+  width: 100% !important;
+  max-width: none !important;
+  background: #11191f; 
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Inputs*/
+main input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]) {
+  width: 100% !important;
+  min-width: 100% !important;
+  display: block !important;
+  box-sizing: border-box !important; 
+  margin: 10px 0 !important;
+}
+
+/* Labels  */
+main label {
+  display: block !important;
+  text-align: left !important; 
+  margin-top: 20px !important;
+  width: 100% !important;
+}
+
+/*  Submit */
+main input[type="submit"] {
+  width: 80% !important;
+  display: block !important;    
+  margin-left: auto !important;  
+  margin-right: auto !important; 
+  margin-top: 30px !important;
+}
+
+main .button_to button, 
+main .button_to input[type="submit"],
+main [data-confirm] { 
+  width: 80% !important;
+  display: block !important;    
+  margin-left: auto !important;  
+  margin-right: auto !important; 
+  margin-top: 15px !important;
+  background-color: #d32f2f !important; 
+  border-color: #d32f2f !important;
+  color: white !important;
+}
+
+/* 6. Navigation (Αποσύνδεση) */
+nav .button_to, 
+nav .button_to input {
+  width: auto !important;
+  display: inline-block !important;
+  margin: 0 !important;
+}
+/*hyperlink αρχικης σελίδας*/
+nav ul li h2 a, 
+nav ul li strong a {
+  text-decoration: none !important;
+  color: inherit !important; 
+}
+nav ul li a:hover {
+  text-decoration: none !important;
+}
+
+
+.btn-social.facebook, 
+.btn-social.google_oauth2 {
+  display: flex !important;       
+  align-items: center !important;   
+  justify-content: center !important;
+  width: 260px !important;
+  height: 45px!important;
+  margin: 10px auto !important;
+  padding: 12px !important;     
+  border-radius: 6px !important;
+  font-size: 0.95rem !important;
+  text-align: center !important;
+  box-sizing: border-box !important; 
+}
+
+.btn-social.facebook {
+  background-color: #1877F2 !important;
+  color: white !important;
+  border: none !important;
+}
+
+.btn-social.google_oauth2 {
+  background-color: #ffffff !important;
+  color: #444 !important;
+  border: 1px solid #ddd !important;
+  margin: 18px auto !important;
+}

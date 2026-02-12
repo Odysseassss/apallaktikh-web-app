@@ -305,12 +305,17 @@ Devise.setup do |config|
   # apps is `200 OK` and `302 Found` respectively, but new apps are generated with
   # these new defaults that match Hotwire/Turbo behavior.
   # Note: These might become the new default in future versions of Devise.
-  config.responder.error_status = :unprocessable_content
-  config.responder.redirect_status = :see_other
+ config.omniauth :google_oauth2, 
+    "518984546273-bl8uiv8vcm06geein6dk6oq5c84fenbh.apps.googleusercontent.com", 
+    "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", 
+    { 
+      scope: 'email, profile',
+      prompt: 'select_account',
+      callback_path: '/users/auth/google_oauth2/callback',
 
-  # ==> Configuration for :registerable
-
-  # When set to false, does not sign a user in automatically after their password is
-  # changed. Defaults to true, so a user is signed in automatically after changing a password.
-  # config.sign_in_after_change_password = true
+      provider_ignores_state: true 
+    }
+  OmniAuth.config.on_failure = Proc.new { |env|
+    OmniAuth::FailureEndpoint.new(env).redirect_to_failure
+  }
 end

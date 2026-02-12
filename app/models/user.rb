@@ -4,6 +4,15 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
          
   has_many :posts, dependent: :destroy
+  has_many :contacts, dependent: :destroy
+  
+  # Εισερχόμενα αιτήματα
+  has_many :received_requests, class_name: "Contact", foreign_key: "friend_id", dependent: :destroy
+
+  # ελέγχει αν είμαστε ήδη φίλοι ή αν έχω στείλει αίτημα
+  def contact_with?(other_user)
+    contacts.exists?(friend: other_user) || received_requests.exists?(user: other_user)
+  end
 
   def self.from_omniauth(auth)
   where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

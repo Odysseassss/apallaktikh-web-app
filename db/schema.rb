@@ -10,11 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_12_121236) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_12_183244) do
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "friend_id", null: false
+    t.string "status", default: "pending"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["friend_id"], name: "index_contacts_on_friend_id"
+    t.index ["user_id", "friend_id"], name: "index_contacts_on_user_id_and_friend_id", unique: true
+    t.index ["user_id"], name: "index_contacts_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -42,6 +53,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_121236) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "contacts", "users"
+  add_foreign_key "contacts", "users", column: "friend_id"
   add_foreign_key "posts", "categories"
   add_foreign_key "posts", "users"
 end

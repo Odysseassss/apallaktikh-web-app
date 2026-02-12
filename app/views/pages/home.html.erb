@@ -1,2 +1,17 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div style="text-align: center; margin-top: 50px;">
+  <h1>Καλώς ήρθατε στο Portal μας!</h1>
+  <p style="font-size: 18px; color: #666;">
+    Εδώ μπορείτε να συζητήσετε, να λύσετε απορίες και να ανταλλάξετε απόψεις.
+  </p>
+
+  <br>
+
+  <%= link_to "Δείτε όλα τα Posts", posts_path, 
+      style: "background-color: #0d6efd; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-size: 20px; font-weight: bold;" %>
+      
+  <div style="margin-top: 20px;">
+    <% if user_signed_in? %>
+      <%= link_to "Δημιουργία Νέου Post", new_post_path, style: "color: #0d6efd; text-decoration: underline;" %>
+    <% end %>
+  </div>
+</div>

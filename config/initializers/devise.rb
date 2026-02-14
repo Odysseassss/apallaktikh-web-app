@@ -306,8 +306,8 @@ Devise.setup do |config|
   # these new defaults that match Hotwire/Turbo behavior.
   # Note: These might become the new default in future versions of Devise.
  config.omniauth :google_oauth2, 
-    "518984546273-bl8uiv8vcm06geein6dk6oq5c84fenbh.apps.googleusercontent.com", 
-    "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", 
+    "", 
+    "", 
     { 
       scope: 'email, profile',
       prompt: 'select_account',

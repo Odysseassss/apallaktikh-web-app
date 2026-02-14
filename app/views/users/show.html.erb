@@ -1,0 +1,24 @@
+<div class="container" style="max-width: 600px; margin: 50px auto; padding: 30px; background: #1a1e22; border: 1px solid #444; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); font-family: 'Montserrat', sans-serif;">
+  
+  <h3 style="text-align: center; color: #0081c9; margin-bottom: 30px; font-weight: bold;">My profile</h3>
+
+  <div style="margin-bottom: 20px; padding: 15px; background: #2c3035; border-radius: 6px; border-left: 4px solid #0081c9;">
+    <strong style="display: block; color: #aaa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Email</strong>
+    <span style="font-size: 1.1rem; color: #ffffff;"><%= @user.email %></span>
+  </div>
+
+  <div style="margin-bottom: 20px; padding: 15px; background: #2c3035; border-radius: 6px; border-left: 4px solid #2596be;">
+    <strong style="display: block; color: #aaa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Member Sence</strong>
+    <span style="font-size: 1.1rem; color: #ffffff;"><%= @user.created_at.strftime("%d %B %Y") %></span>
+  </div>
+
+  <hr style="border: 0; border-top: 1px solid #444; margin: 30px 0;">
+
+  <div style="display: flex; flex-direction: column; gap: 15px;">
+    <%= link_to "Edit", edit_user_registration_path, 
+        style: "text-align: center; background-color: #0081c9; color: white; padding: 12px; border-radius: 4px; text-decoration: none; font-weight: bold; box-shadow: 2px 2px 10px rgba(0,0,0,0.3);" %>
+    
+    <%= link_to "Back To Main", root_path, 
+        style: "text-align: center; color: #aaa; text-decoration: none; font-size: 0.9rem;" %>
+  </div>
+</div>

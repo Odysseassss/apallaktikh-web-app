@@ -1,6 +1,5 @@
 
 <h2 style="text-align: center;margin-top: 40px;">Edit <%= resource_name.to_s.humanize %></h2>
-
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -38,7 +37,7 @@
 
 <hr style="border: 1px solid #FFFFFF; opacity: 0.4;margin-top: 150px;">
 
-<div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 50px;">
+<div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 50px;margin-bottom: 80px;margin-left: 70px;">
   <h4 style="margin: 0;">Unhappy?</h4>
   
   <%= button_to "Cancel my account", registration_path(resource_name), 

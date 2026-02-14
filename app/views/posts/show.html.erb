@@ -3,10 +3,11 @@
 <%= render @post %>
 
   <div>
-    <%= link_to "Back to posts", posts_path %> |
-    
+    <%= link_to "Back to posts", posts_path, 
+        style: "text-align: center; color: #aaa; text-decoration: none; font-size: 0.9rem;margin-left:10px;" %> 
     <% if current_user == @post.user %>
-      <%= link_to "Edit this post", edit_post_path(@post) %>
+      <%= link_to "Edit post", edit_post_path, 
+        style: "text-align: center; color: #aaa; text-decoration: none; font-size: 0.9rem;margin-left:10px;" %> |
       <%= button_to "Delete", @post, method: :delete %>
     
       <% end %>

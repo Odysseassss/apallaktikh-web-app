@@ -1,12 +1,14 @@
 <% content_for :title, "Editing post" %>
 
-<h1>Editing post</h1>
+<h1 style="text-align:center;">Editing post</h1>
 
 <%= render "form", post: @post %>
 
 <br>
 
-<div>
-  <%= link_to "Show this post", @post %> |
-  <%= link_to "Back to posts", posts_path %>
+<div style="text-align:center;">
+  <%= link_to "Show this post", @post, 
+        style: "text-align: center; color: #aaa; text-decoration: none; font-size: 0.9rem;" %> |
+  <%= link_to "Back to posts", posts_path, 
+        style: "text-align: center; color: #aaa; text-decoration: none; font-size: 0.9rem;" %> 
 </div>

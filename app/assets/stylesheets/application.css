@@ -119,3 +119,15 @@ main form {
   max-width: 450px !important;
   margin: 0 auto !important;
 }
+.chat-form {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  max-width: none !important;
+}
+
+.chat-form input[type="text"] {
+  flex: 1 !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}

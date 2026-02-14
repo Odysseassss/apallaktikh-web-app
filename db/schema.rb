@@ -10,8 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_12_183244) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_14_021059) do
   create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "chatrooms", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
     t.datetime "updated_at", null: false
@@ -26,6 +32,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_183244) do
     t.index ["friend_id"], name: "index_contacts_on_friend_id"
     t.index ["user_id", "friend_id"], name: "index_contacts_on_user_id_and_friend_id", unique: true
     t.index ["user_id"], name: "index_contacts_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "chatroom_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["chatroom_id"], name: "index_messages_on_chatroom_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -43,6 +59,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_183244) do
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "name"
     t.string "provider"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
@@ -55,6 +72,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_183244) do
 
   add_foreign_key "contacts", "users"
   add_foreign_key "contacts", "users", column: "friend_id"
+  add_foreign_key "messages", "chatrooms"
+  add_foreign_key "messages", "users"
   add_foreign_key "posts", "categories"
   add_foreign_key "posts", "users"
 end

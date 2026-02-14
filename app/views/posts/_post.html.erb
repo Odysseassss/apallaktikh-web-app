@@ -1,39 +1,39 @@
-<%= link_to post, id: dom_id(post), style: "text-decoration: none; color: inherit; display: block; height: 100%;" do %>
-  
-  <div style="border: 1px solid #343a40; border-radius: 12px; padding: 20px; background-color: #212529; color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.5); transition: transform 0.2s, box-shadow 0.2s; height: 100%; display: flex; flex-direction: column; justify-content: space-between;"
-       onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 8px 12px rgba(0,0,0,0.7)';"
-       onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.5)';">
+<div style="position: relative; height: 100%;" class="post-card-container">
 
-    <div>
-      <h2 style="margin-top: 0; font-size: 1.5rem;"><%= post.title %></h2>
-      
-      <span style="background-color: #e9ecef; color: #212529; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;">
-        <%= post.category.name %>
-      </span>
+  <%= link_to post, id: dom_id(post), style: "text-decoration: none; color: inherit; display: block; height: 100%;" do %>
+    <div style="border: 1px solid #444; border-radius: 12px; padding: 20px; background-color: #2c3035; color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.5); transition: transform 0.2s, box-shadow 0.2s; height: 100%; display: flex; flex-direction: column; justify-content: space-between;"
+         class="post-card">
 
-      <p style="color: #ced4da; margin-top: 15px;">
-        <%= truncate(post.body, length: 100) %>
-      </p>
+      <div>
+        <h2 style="margin-top: 0; font-size: 1.5rem; color: #0081c9;"><%= post.title %></h2>
+        <span style="background-color: #444; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;">
+          <%= post.category.name if post.category %>
+        </span>
+
+        <p style="color: #ced4da; margin-top: 15px; line-height: 1.5;">
+          <%= truncate(post.body, length: 110) %>
+        </p>
+      </div>
+
+      <div style="border-top: 1px solid #444; margin-top: 15px; padding-top: 12px;">
+        <small style="color: #888; display: block; font-size: 0.65rem;">OWNER</small>
+        <span style="color: #adb5bd; font-size: 0.85rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">
+          <%= post.user.name %>
+        </span>
+      </div>
     </div>
-
-  <div style="border-top: 1px solid #343a40; margin-top: 15px; padding-top: 10px; font-size: 0.9rem; color: #adb5bd; display: flex; justify-content: space-between; align-items: center;">
+  <% end %>
   
-    <small>Από: <%= post.user.email %></small>
-
-    <% if user_signed_in? && post.user != current_user %>
-      
+  <% if user_signed_in? && post.user != current_user %>
+    <div style="position: absolute; bottom: 25px; right: 20px; z-index: 999;">
       <% if current_user.contact_with?(post.user) %>
-        <span style="font-size: 0.8rem; color: #198754; font-weight: bold;">✓ Στάλθηκε/Επαφή</span>
+        <span style="font-size: 0.8rem; color: #198754; font-weight: bold;">✓ Sent</span>
       <% else %>
-        <%= link_to "Προσθήκη Επαφής", contacts_path(friend_id: post.user.id),
+        <%= link_to "Add Contact", contacts_path(friend_id: post.user.id),
             data: { turbo_method: :post },
-            style: "background-color: #0d6efd; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 0.8rem; display: inline-block; cursor: pointer;" %>
+            style: "background-color: #0081c9; color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 0.75rem; font-weight: bold; display: inline-block;" %>
       <% end %>
-
-    <% end %>
-
-  </div>
+    </div>
+  <% end %>
 
 </div>
-
-<% end %>

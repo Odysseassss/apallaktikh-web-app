@@ -1,27 +1,37 @@
-
 <% content_for :title, "Posts" %>
+<br>
 
-<h1 style="text-align: center; color: white; margin-bottom: 40px; font-size: 3rem;">Posts</h1>
-
-<div style="display: flex; justify-content: center; margin-bottom: 30px;">
+<h1 style="text-align: center;  margin-bottom: 40px; font-size: 3rem; font-family: 'Montserrat', sans-serif;">Posts</h1>
+<br>
+<br>
+<div style="max-width: 1300px; margin: 0 auto 20px auto; padding: 0 20px;">
   
-  <%= form_with url: posts_path, method: :get, local: true, style: "display: flex; gap: 10px; align-items: center; width: 100%; justify-content: center; max-width: 1100px;" do |form| %>
-    
-    <%= form.text_field :search, placeholder: "Αναζήτηση Posts...", value: params[:search], 
-        style: "flex-grow: 1; padding: 15px 30px; font-size: 18px; border: none; border-radius: 4px; outline: none; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" %>
-    
-    <%= form.submit "Αναζήτηση", 
-        style: "background-color: #2596be; color: white; padding: 15px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 18px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: background-color 0.2s;" %>
+  <%= form_with url: posts_path, method: :get, local: true, 
+      style: "display: flex; gap: 10px; align-items: center; width: 100%;" do |form| %>
+
+    <%= form.text_field :search, 
+        placeholder: "Search Posts...", 
+        value: params[:search], 
+        style: "flex: 1; padding: 18px 30px; font-size: 20px; border: 1px solid #444; border-radius: 6px; background: #2c3035; color: white;" %>
+
+    <%= form.submit "Search", 
+        style: "padding: 18px 30px; font-size: 18px; background-color: #0081c9; color: white; border: none; border-radius: 6px; cursor: pointer;" %>
+
   <% end %>
 </div>
 
+
+
 <div style="text-align: center; margin-bottom: 50px;">
-  <%= link_to "Δημιουργία Νέου Post", new_post_path, 
-      style: "display: inline-block; background-color: #2596be; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-size: 18px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" %>
+  <%= link_to "+ New Post", new_post_path, 
+      style: "display: inline-block; background-color: #198754; color: white; padding: 12px 25px; text-decoration: none; border-radius: 4px; font-size: 18px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" %>
 </div>
 
-<div id="posts" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; max-width: 1300px; margin: 0 auto; padding: 0 20px;">
+<div id="posts" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; max-width: 1300px; margin: 0 auto; padding: 0 20px; padding-bottom: 50px; align-items: stretch;">
   <% @posts.each do |post| %>
-    <%= render post %>
+    <%# Προσθέσαμε display: flex και flex-direction: column %>
+    <div style="background: #1a1e22; border: 1px solid #444; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; height: 100%;">
+       <%= render post %>
+    </div>
   <% end %>
 </div>

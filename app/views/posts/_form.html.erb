@@ -22,8 +22,8 @@
   </div>
 
   <div>
-    <%= form.label :category_id, "Κατηγορία", style: "display: block" %>
-    <%= form.collection_select :category_id, Category.all, :id, :name, { prompt: "Επίλεξε κατηγορία" }, { class: "form-control" } %>
+    <%= form.label :category_id, "Category", style: "display: block" %>
+    <%= form.collection_select :category_id, Category.all, :id, :name, { prompt: "Select Category" }, { class: "form-control" } %>
   </div>
 
   <div>

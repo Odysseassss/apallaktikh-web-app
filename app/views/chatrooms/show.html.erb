@@ -2,17 +2,24 @@
   
   <% other_user = @chatroom.users.where.not(id: current_user.id).first %>
   <h2 style="font-size: 1.2rem; border-bottom: 1px solid #444; padding-bottom: 15px; color: #0081c9;">
+<<<<<<< HEAD
     Chat with <%= other_user&.name || "User" %>
+=======
+    Chat With <%= other_user&.name || "User" %>
+>>>>>>> ed40c09b3128879fedbfd2efadfb036c98c93b69
   </h2>
 
   <div id="messages" style="height: 450px; overflow-y: auto; padding: 15px; margin-bottom: 20px; background: #212529; border-radius: 8px; display: flex; flex-direction: column; gap: 10px;">
     <% @chatroom.messages.each do |message| %>
       <div style="display: flex; flex-direction: column; align-items: <%= message.user == current_user ? 'flex-end' : 'flex-start' %>;">
+<<<<<<< HEAD
         
         <small style="font-size: 0.75rem; color: #888; margin-bottom: 3px; padding: 0 5px;">
           <%= message.user.name %>
         </small>
         
+=======
+>>>>>>> ed40c09b3128879fedbfd2efadfb036c98c93b69
         <span style="background: <%= message.user == current_user ? '#0081c9' : '#444' %>; color: white; padding: 8px 14px; border-radius: 15px; border-bottom-<%= message.user == current_user ? 'right' : 'left' %>-radius: 2px;max-width: 80%; word-wrap: break-word;">
           <%= message.content %>
         </span>
@@ -25,6 +32,7 @@
 
 
   <div id="message-form-container" style="padding: 15px; background: #1a1e22; border-top: 1px solid #444;">
+<<<<<<< HEAD
     <%= form_with(model: [@chatroom, @message], html: { data: { turbo: true } }) do |f| %>
     <div style="display: flex; align-items: center; gap: 10px; width: 100%;">
       
@@ -44,6 +52,27 @@
 
     </div>
     <% end %>
+=======
+	  <%= form_with(model: [@chatroom, @message], html: { data: { turbo: true } }) do |f| %>
+		<div style="display: flex; align-items: center; gap: 10px; width: 100%;">
+		  
+		  <div style="flex-grow: 1;">
+			<%= f.text_field :content, 
+				placeholder: "Message...", 
+				style: "width: 100%; background: #2c3035; color: white; border: 1px solid #444; padding: 12px 20px; border-radius: 25px; outline: none; box-sizing: border-box; display: block;", 
+				autocomplete: 'off' %>
+		  </div>
+
+		  <%= f.button type: :submit, 
+			  style: "background: #0081c9; color: white; border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 0; min-width: 48px; margin: 0;" do %>
+			<svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16" style="transform: rotate(45deg); margin-left: -3px; margin-top: -1px;">
+			  <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+			</svg>
+		  <% end %>
+
+		</div>
+	  <% end %>
+>>>>>>> ed40c09b3128879fedbfd2efadfb036c98c93b69
   </div>
 </div>
 
@@ -68,4 +97,9 @@
   }
   window.onload = scrollToBottom;
   document.addEventListener("turbo:load", scrollToBottom);
+<<<<<<< HEAD
 </script>
+=======
+</script>
+
+>>>>>>> ed40c09b3128879fedbfd2efadfb036c98c93b69

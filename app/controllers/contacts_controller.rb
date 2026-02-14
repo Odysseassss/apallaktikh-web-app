@@ -9,10 +9,10 @@ class ContactsController < ApplicationController
     @contact = current_user.contacts.build(friend: @friend, status: 'pending')
 
     if @contact.save
-      redirect_back fallback_location: root_path, notice: "Το αίτημα φιλίας στάλθηκε στον/στην #{@friend.email}!"
+      redirect_back fallback_location: root_path, notice: "Friend request sent to #{@friend.email}!"
     else
       # Αν αποτύχει, μας δείχνει το γιατί (π.χ. έχετε ήδη στείλει)
-      redirect_back fallback_location: root_path, alert: "Αποτυχία: #{@contact.errors.full_messages.to_sentence}"
+      redirect_back fallback_location: root_path, alert: "Error: #{@contact.errors.full_messages.to_sentence}"
     end
   end
 
@@ -41,6 +41,6 @@ class ContactsController < ApplicationController
     end
     
     @contact.destroy
-    redirect_back fallback_location: root_path, notice: "Η επαφή διαγράφηκε/απορρίφθηκε."
+    redirect_back fallback_location: root_path, notice: "Contact has been removed/rejected."
   end
 end

@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  skip_before_action :verify_authenticity_token, if: -> { omniauth_callback_path? }
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_active_chats
 

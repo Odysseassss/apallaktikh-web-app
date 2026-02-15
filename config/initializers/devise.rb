@@ -8,6 +8,9 @@
 #
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+OmniAuth.config.allowed_request_methods = [:post, :get]
+OmniAuth.config.silence_get_warning = true
+OmniAuth.config.full_host = "http://127.0.0.1:3000"
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
@@ -306,14 +309,14 @@ Devise.setup do |config|
   # these new defaults that match Hotwire/Turbo behavior.
   # Note: These might become the new default in future versions of Devise.
  config.omniauth :google_oauth2, 
-    "", 
-    "", 
+    "518984546273-bl8uiv8vcm06geein6dk6oq5c84fenbh.apps.googleusercontent.com", 
+    "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", 
     { 
       scope: 'email, profile',
       prompt: 'select_account',
-      callback_path: '/users/auth/google_oauth2/callback',
+      callback_path: 'http://127.0.0.1:3000/users/auth/google_oauth2/callback',
 
-      provider_ignores_state: true 
+       
     }
   OmniAuth.config.on_failure = Proc.new { |env|
     OmniAuth::FailureEndpoint.new(env).redirect_to_failure

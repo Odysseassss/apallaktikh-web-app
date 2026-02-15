@@ -1,41 +1,33 @@
-<%= turbo_stream_from @chatroom %>
-
 <style>
-  /* Default: Μηνύματα άλλων (Αριστερά - Γκρι) */
   .message-row { align-items: flex-start; }
   .message-bubble { 
     background: #444; 
     border-bottom-left-radius: 2px;
   }
-
-  /* Specific: Τα ΔΙΚΑ ΜΟΥ μηνύματα (Δεξιά - Μπλε) */
-  /* Το Ruby εδώ βάζει το ID μου, π.χ. .msg-user-5 */
+  
   .msg-user-<%= current_user.id %> { 
     align-items: flex-end; 
   }
   
   .msg-user-<%= current_user.id %> .message-bubble {
     background: #0081c9;
-    border-bottom-left-radius: 15px; /* Επαναφορά γωνίας */
-    border-bottom-right-radius: 2px;  /* Γωνία για δικά μου */
+    border-bottom-left-radius: 15px; 
+    border-bottom-right-radius: 2px; 
   }
 </style>
 
 <div class="container" style="max-width: 600px; margin: 40px auto; background: #1a1e22; padding: 20px; border-radius: 12px; border: 1px solid #444; color: white;">
-  
+  <%= turbo_stream_from @chatroom %>
+
   <% 
       other_users = @chatroom.users.where.not(id: current_user.id)
-      if other_users.count > 1
-        chat_title = "Group Chat (#{other_users.count} members)"
-      else
-        chat_title = "Chat with #{other_users.first&.name || 'User'}"
-      end
+      chat_title = other_users.count > 1 ? "Group Chat (#{other_users.count} members)" : "Chat with #{other_users.first&.name || 'User'}"
   %>
 
   <h2 style="font-size: 1.2rem; border-bottom: 1px solid #444; padding-bottom: 15px; color: #0081c9;">
     <%= chat_title %>
   </h2>
-
+  
   <div id="messages" style="height: 450px; overflow-y: auto; padding: 15px; margin-bottom: 20px; background: #212529; border-radius: 8px; display: flex; flex-direction: column; gap: 10px;">
     <% @chatroom.messages.each do |message| %>
       <%= render message %> 
@@ -43,45 +35,45 @@
   </div>
 
   <div id="message-form-container" style="padding: 15px; background: #1a1e22; border-top: 1px solid #444;">
-    <%= form_with(model: [@chatroom, @message], html: { data: { turbo: true } }) do |f| %>
-    <div style="display: flex; align-items: center; gap: 10px; width: 100%;">
-      
-      <div style="flex-grow: 1;">
-      <%= f.text_field :content, 
-        placeholder: "Message...", 
-        style: "width: 100%; background: #2c3035; color: white; border: 1px solid #444; padding: 12px 20px; border-radius: 25px; outline: none; box-sizing: border-box; display: block;", 
-        autocomplete: 'off' %>
+    <%= form_with(model: [@chatroom, @message], html: { data: { turbo: true, action: "turbo:submit-end->reset-form#reset" } }) do |f| %>
+      <div style="display: flex; align-items: center; gap: 10px; width: 100%;">
+        <div style="flex-grow: 1;">
+          <%= f.text_field :content, 
+            placeholder: "Message...", 
+            style: "width: 100%; background: #2c3035; color: white; border: 1px solid #444; padding: 12px 20px; border-radius: 25px; outline: none; box-sizing: border-box; display: block;", 
+            autocomplete: 'off' %>
+        </div>
+
+        <%= f.button type: :submit, 
+          style: "background: #0081c9; color: white; border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 0;" do %>
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16" style="transform: rotate(45deg);">
+            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+          </svg>
+        <% end %>
       </div>
-
-      <%= f.button type: :submit, 
-        style: "background: #0081c9; color: white; border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 0; min-width: 48px; margin: 0;" do %>
-      <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16" style="transform: rotate(45deg); margin-left: -3px; margin-top: -1px;">
-        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
-      </svg>
-      <% end %>
-
-    </div>
     <% end %>
   </div>
 </div>
 
 <script>
-  document.addEventListener("turbo:before-stream-render", function(event) {
-    if(event.target.action === "append" && event.target.target === "messages") {
-      const objDiv = document.getElementById("messages");
-      setTimeout(() => {
-        objDiv.scrollTop = objDiv.scrollHeight;
-      }, 50);
+  // άδειασμα του μηνύματος μετά την αποστολή
+  document.addEventListener("turbo:submit-end", function(event) {
+    if (event.detail.success) {
+      event.target.reset();
     }
   });
-</script>
 
-<script>
+  // scroll down αυτόματα σε κάθε νέο μήνυμα
+  document.addEventListener("turbo:before-stream-render", function(event) {
+    const objDiv = document.getElementById("messages");
+    if (objDiv) {
+      setTimeout(() => { objDiv.scrollTop = objDiv.scrollHeight; }, 100);
+    }
+  });
+
   function scrollToBottom() {
     const messagesDiv = document.getElementById("messages");
-    if (messagesDiv) {
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
+    if (messagesDiv) { messagesDiv.scrollTop = messagesDiv.scrollHeight; }
   }
   window.onload = scrollToBottom;
   document.addEventListener("turbo:load", scrollToBottom);

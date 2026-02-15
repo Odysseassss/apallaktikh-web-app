@@ -1,7 +1,11 @@
-
 <h2 style="text-align: center;margin-top: 40px;">Edit <%= resource_name.to_s.humanize %></h2>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
+  
+  <div class="field" style = "margin-top: 60px;">
+    <p><%= f.label :name %></p>
+    <p><%= f.text_field :name, autofocus: true, autocomplete: "name" %></p>
+  </div>
 
   <div class="field" style = "margin-top: 60px;">
     <p><%= f.label :email %></p>
@@ -16,7 +20,6 @@
     <p><%= f.label :password %> <i>(leave blank if you don't want to change it)</i></p>
     <p><%= f.password_field :password, autocomplete: "new-password" %></p>
     <% if @minimum_password_length %>
-      <p><em><%= @minimum_password_length %> characters minimum</em></p>
     <% end %>
   </div>
 
@@ -39,10 +42,46 @@
 
 <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 50px;margin-bottom: 80px;margin-left: 70px;">
   <h4 style="margin: 0;">Unhappy?</h4>
-  
-  <%= button_to "Cancel my account", registration_path(resource_name), 
-      data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, 
-      method: :delete, 
-      class: "outline",
-      style: "width: auto !important; margin: 0 !important; padding: 5px 15px; border-color: #d32f2f; color: #d32f2f;" %>
+  <%= button_to "Delete my account", registration_path(resource_name),  
+  method: :delete, class: "outline",
+  id: "delete-account-btn",  
+  style: "width: auto !important; margin: 0 !important; padding: 5px 15px; border-color: #d32f2f; color: #d32f2f;" %>
+
+	<div id="confirm-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+	  <div style="background:#1e1e1e; padding:30px; border-radius:12px; width:350px; text-align:center;">
+		<h3 style="color:white;">Delete Account?</h3>
+		<p style="color:#aaa;">This action cannot be undone.</p>
+
+		<div style="margin-top:20px; display:flex; justify-content:space-between;">
+		  <button id="cancel-btn" style="padding:8px 16px;">Cancel</button>
+		  <button id="confirm-delete" style="background:#d32f2f; color:white; padding:8px 16px; border:none; border-radius:6px;">
+			Yes, Delete
+		  </button>
+		</div>
+	  </div>
+	</div>
 </div>
+
+<script>
+	  document.addEventListener("DOMContentLoaded", function() {
+	  const deleteBtn = document.getElementById("delete-account-btn");
+	  const modal = document.getElementById("confirm-modal");
+	  const cancelBtn = document.getElementById("cancel-btn");
+	  const confirmDelete = document.getElementById("confirm-delete");
+
+	  deleteBtn.addEventListener("click", function(e) {
+		e.preventDefault();
+		modal.style.display = "flex";
+	  });
+
+	  cancelBtn.addEventListener("click", function() {
+		modal.style.display = "none";
+	  });
+
+	  confirmDelete.addEventListener("click", function() {
+		// submit το form που δημιουργεί το button_to
+		deleteBtn.form.submit();
+	  });
+	});
+
+</script>

@@ -16,11 +16,7 @@
       </div>
 
       <div style="border-top: 1px solid #444; margin-top: 15px; padding-top: 12px;">
-<<<<<<< HEAD
         <small style="color: #888; display: block; font-size: 0.65rem;">AUTHOR</small>
-=======
-        <small style="color: #888; display: block; font-size: 0.65rem;">OWNER</small>
->>>>>>> ed40c09b3128879fedbfd2efadfb036c98c93b69
         <span style="color: #adb5bd; font-size: 0.85rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">
           <%= post.user.name %>
         </span>
@@ -29,11 +25,7 @@
   <% end %>
   
   <% if user_signed_in? && post.user != current_user %>
-<<<<<<< HEAD
     <div style="position: absolute; bottom: 8px; right: 20px; z-index: 999;">
-=======
-    <div style="position: absolute; bottom: 25px; right: 20px; z-index: 999;">
->>>>>>> ed40c09b3128879fedbfd2efadfb036c98c93b69
       <% if current_user.contact_with?(post.user) %>
         <span style="font-size: 0.8rem; color: #198754; font-weight: bold;">✓ Sent</span>
       <% else %>

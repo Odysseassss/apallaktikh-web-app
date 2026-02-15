@@ -1,0 +1,14 @@
+<div id="<%= dom_id(message) %>" class="message-row msg-user-<%= message.user_id %>" style="display: flex; flex-direction: column; margin-bottom: 10px;">
+  
+  <small style="font-size: 0.75rem; color: #888; margin-bottom: 3px; padding: 0 5px;">
+    <%= message.user.name %>
+  </small>
+  
+  <span class="message-bubble" style="color: white; padding: 8px 14px; border-radius: 15px; max-width: 80%; word-wrap: break-word;">
+    <%= message.content %>
+  </span>
+  
+  <small style="font-size: 0.65rem; color: #666; margin-top: 2px;">
+    <%= message.created_at.strftime("%H:%M") %>
+  </small>
+</div>

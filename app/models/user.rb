@@ -24,4 +24,17 @@ class User < ApplicationRecord
     user.save
     user
   end
+      def contact_status_with(other_user)
+      # Ψάχνουμε αν στείλαμε εμείς
+      outbound = contacts.find_by(friend_id: other_user.id)
+      return 'accepted' if outbound&.status == 'accepted'
+      return 'pending_sent' if outbound&.status == 'pending'
+
+      # Ψάχνουμε αν μας έστειλαν
+      inbound = Contact.find_by(user_id: other_user.id, friend_id: self.id)
+      return 'accepted' if inbound&.status == 'accepted'
+      return 'pending_received' if inbound&.status == 'pending'
+
+      'none'
+   end
 end

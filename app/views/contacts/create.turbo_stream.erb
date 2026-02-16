@@ -1,0 +1,6 @@
+<%# Βρίσκει το div με το ID του χρήστη και αλλάζει το περιεχόμενό του %>
+<%= turbo_stream.replace "user_#{@friend.id}_action" do %>
+  <div class="action-zone" id="user_<%= @friend.id %>_action">
+    <span style="color: #ff9f43; font-size: 0.75rem; font-weight: bold;">⏳ Sent</span>
+  </div>
+<% end %>

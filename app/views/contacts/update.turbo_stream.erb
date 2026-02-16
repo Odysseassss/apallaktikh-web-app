@@ -1,0 +1,47 @@
+
+<%= turbo_stream.remove "pending_request_#{@contact.id}" %>
+
+
+<%= turbo_stream.append "active_friends_list" do %>
+  <div id="active_contact_<%= @contact.id %>" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 5px 0;">
+    
+    <%# ΕΔΩ ΕΙΝΑΙ Η ΛΥΣΗ: Εμφανίζουμε τον user (αυτόν που έστειλε το request) %>
+    <span style="font-size: 0.9rem;">
+      <%= @contact.user.name || @contact.user.email %>
+    </span>
+
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <%# Chat Button %>
+      <%= link_to chatrooms_path(user_id: @contact.user_id), data: { turbo_method: :post }, style: "color: #198754; font-size: 0.75rem; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 4px;" do %>
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414L1 14.414V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/></svg> Chat
+      <% end %>
+
+      <%# Delete Button - Το κάναμε button_to για να αποφύγουμε το double click %>
+      <%= button_to contact_path(@contact), 
+          method: :delete, 
+          form: { data: { turbo_confirm: "Are you sure?" } },
+          style: "background: none; border: none; color: #ff6b6b; font-size: 0.75rem; text-decoration: none; font-weight: bold; cursor: pointer; padding: 0;" do %>
+        Delete
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<%= turbo_stream.remove "no_contacts_msg" %>
+
+
+<%= turbo_stream.replace "user_#{@contact.user_id}_action" do %>
+  <div class="action-zone" id="user_<%= @contact.user_id %>_action">
+    <span style="color: #4cd137; font-size: 0.75rem; font-weight: bold;">✓ Friends</span>
+  </div>
+<% end %>
+
+<% new_count = current_user.received_requests.where(status: 'pending').count %>
+
+<%= turbo_stream.update "contacts_badge_container" do %>
+  <% if new_count > 0 %>
+    <span id="contacts_badge_count" style="background: #dc3545; color: white; border-radius: 50%; padding: 2px 7px; font-size: 12px; margin-left: 5px;">
+      <%= new_count %>
+    </span>
+  <% end %>
+<% end %>

@@ -2,45 +2,65 @@ class ContactsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    # Βρίσκουμε τον χρήστη στον οποίο θέλουμε να στείλουμε αίτημα
     @friend = User.find(params[:friend_id])
+    
+    existing_contact = Contact.where(user: current_user, friend: @friend)
+                              .or(Contact.where(user: @friend, friend: current_user))
+                              .first
 
-    # Δημιουργούμε το αίτημα
+    if existing_contact
+      message = existing_contact.status == 'pending' && existing_contact.friend == current_user ? 
+                "Αυτός ο χρήστης σου έχει ήδη στείλει αίτημα!" : "Υπάρχει ήδη μια σύνδεση."
+      redirect_back fallback_location: root_path, alert: message
+      return
+    end
+
     @contact = current_user.contacts.build(friend: @friend, status: 'pending')
-
+    
     if @contact.save
-      redirect_back fallback_location: root_path, notice: "Friend request sent to #{@friend.email}!"
+      respond_to do |format|
+        format.turbo_stream # <--- ΤΩΡΑ ΘΑ ΔΟΥΛΕΨΕΙ ΤΟ CREATE
+        format.html { redirect_back fallback_location: root_path, notice: "Request sent!" }
+      end
     else
-      # Αν αποτύχει, μας δείχνει το γιατί (π.χ. έχετε ήδη στείλει)
-      redirect_back fallback_location: root_path, alert: "Error: #{@contact.errors.full_messages.to_sentence}"
+      redirect_back fallback_location: root_path, alert: "Something went wrong."
     end
   end
 
-  # Αποδοχή αιτήματος
-  def update
-    @contact = Contact.find(params[:id])
-    
-    # Ενημερώνω το αίτημα σε 'accepted'
-    @contact.update(status: 'accepted')
-    
-    # Δημιουργώ την αντιστροφη εγγραφή ώστε να είμαι κι εγώ στη λίστα του άλλου
-    Contact.create(user_id: current_user.id, friend_id: @contact.user_id, status: 'accepted')
-
-    redirect_back fallback_location: root_path, notice: "Request has been accepted!"
-  end
-
-  # Απόρριψη ή Διαγραφή
   def destroy
     @contact = Contact.find(params[:id])
+    @target_user_id = @contact.user_id == current_user.id ? @contact.friend_id : @contact.user_id
     
-    # Αν είμαστε φίλοι (accepted), πρέπει να σβήσουμε και τις δύο εγγραφές
     if @contact.status == 'accepted'
-      # Βρες την αντίστροφη εγγραφή
       reverse_contact = Contact.find_by(user: @contact.friend, friend: @contact.user)
       reverse_contact&.destroy
     end
     
     @contact.destroy
-    redirect_back fallback_location: root_path, notice: "Contact has been removed/rejected."
+
+    respond_to do |format|
+      format.turbo_stream # <--- ΓΙΑ ΝΑ ΜΗΝ ΚΛΕΙΝΕΙ Η ΜΠΑΡΑ ΟΤΑΝ ΣΒΗΝΕΙΣ ΚΑΠΟΙΟΝ
+      format.html { redirect_back fallback_location: root_path, notice: "Removed." }
+    end
+  end
+
+  # Αποδοχή αιτήματος
+  def update
+      @contact = Contact.find(params[:id])
+  
+      # Χρησιμοποιούμε transaction για σιγουριά ότι θα γίνουν και τα δύο ή τίποτα
+      Contact.transaction do
+        @contact.update!(status: 'accepted')
+        Contact.find_or_create_by!(user_id: current_user.id, friend_id: @contact.user_id) do |c|
+          c.status = 'accepted'
+        end
+      end
+
+      respond_to do |format|
+        format.turbo_stream # Αυτό θα ψάξει το αρχείο update.turbo_stream.erb
+        format.html { redirect_back fallback_location: root_path, notice: "Accepted!" }
+      end
+  rescue ActiveRecord::RecordInvalid
+      redirect_back fallback_location: root_path, alert: "Something went wrong."
   end
 end

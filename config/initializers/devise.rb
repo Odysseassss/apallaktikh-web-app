@@ -308,10 +308,19 @@ Devise.setup do |config|
   # apps is `200 OK` and `302 Found` respectively, but new apps are generated with
   # these new defaults that match Hotwire/Turbo behavior.
   # Note: These might become the new default in future versions of Devise.
- config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], {
+ config.omniauth :google_oauth2, 
+ "518984546273-bl8uiv8vcm06geein6dk6oq5c84fenbh.apps.googleusercontent.com", 
+ "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", 
+ {
     scope: 'email, profile',
     prompt: 'select_account',
     image_aspect_ratio: 'square',
     image_size: 50
   }
+
+  config.omniauth :facebook, 
+  "то_APP_ID_соу", 
+  "то_APP_SECRET_соу", 
+  scope: 'email', 
+  info_fields: 'email,name'
 end

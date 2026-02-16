@@ -1,0 +1,38 @@
+<%= turbo_frame_tag "search_results" do %>
+  <% if @users.any? %>
+    <% @users.each do |user| %>
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid #2d343b;">
+        <%= link_to user_path(user), data: { turbo: false }, style: "text-decoration: none; flex-grow: 1;" do %>
+          <span">
+            <%= user.name || user.email %>
+          </span>
+        <% end %>
+        <% outbound = current_user.contacts.find_by(friend_id: user.id) %>
+
+		<% inbound = Contact.find_by(user_id: user.id, friend_id: current_user.id) %>
+
+		<div class="action-zone" id="user_<%= user.id %>_action">
+		  <% if (outbound&.status == 'accepted') || (inbound&.status == 'accepted') %>
+			<span style="color: #4cd137; font-size: 0.75rem; font-weight: bold;">✓ Friends</span>
+
+		  <% elsif outbound&.status == 'pending' %>
+			<span style="color: #ff9f43; font-size: 0.75rem; font-weight: bold;">⏳ Sent</span>
+
+		  <% elsif inbound&.status == 'pending' %>
+			<%= link_to "Accept Request", contact_path(inbound), 
+				data: { turbo_method: :patch, turbo_frame: "search_results" }, 
+				style: "padding: 5px 12px; font-size: 0.7rem; background-color: #198754; color: white; border-radius: 4px; text-decoration: none; font-weight: bold;" %>
+
+		  <% else %>
+			<%= link_to "+ Add", contacts_path(friend_id: user.id), 
+				data: { turbo_method: :post }, 
+				style: "padding: 5px 12px; font-size: 0.7rem; background-color: #0081c9; color: white; border-radius: 4px; text-decoration: none; font-weight: bold;" %>
+		  <% end %>
+		</div>
+        
+      </div>
+    <% end %>
+  <% elsif params[:query].present? %>
+    <div style="color:#8B0000"class="no-results">No users found</div>
+  <% end %>
+<% end %>

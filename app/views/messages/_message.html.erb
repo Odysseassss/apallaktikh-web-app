@@ -9,6 +9,7 @@
   </span>
   
   <small style="font-size: 0.65rem; color: #666; margin-top: 2px;">
-    <%= message.created_at.strftime("%H:%M") %>
-  </small>
+  <%= message.created_at.strftime("%H:%M") if message.persisted? %>
+</small>
+  
 </div>

@@ -1,0 +1,13 @@
+<div id="contact_status_<%= post.id %>" style="position: absolute; bottom: 12px; right: 20px; z-index: 999;">
+  <% status = current_user.contact_status_with(post.user) %>
+
+  <% if status == 'accepted' %>
+    <span style="font-size: 0.8rem; color: #198754; font-weight: bold;">✓ Friends</span>
+  <% elsif status == 'pending_sent' %>
+    <span style="font-size: 0.8rem; color: #ffc107; font-weight: bold;">⌛ Sent</span>
+  <% else %>
+    <%= link_to "Add Contact", contacts_path(friend_id: post.user.id, post_id: post.id),
+        data: { turbo_method: :post },
+        style: "background-color: #0081c9; color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 0.75rem; font-weight: bold; display: inline-block;" %>
+  <% end %>
+</div>

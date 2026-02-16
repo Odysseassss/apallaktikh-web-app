@@ -23,8 +23,13 @@
 
 
 <div style="text-align: center; margin-bottom: 50px;">
-  <%= link_to "+ New Post", new_post_path, 
-      style: "display: inline-block; background-color: #198754; color: white; padding: 12px 25px; text-decoration: none; border-radius: 4px; font-size: 18px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" %>
+  <% if user_signed_in? %>
+    <%= link_to "+ New Post", new_post_path, 
+        style: "display: inline-block; background-color: #198754; color: white; padding: 12px 25px; text-decoration: none; border-radius: 4px; font-size: 18px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" %>
+  <% else %>
+    <%= link_to "Sign in to post", new_user_session_path, 
+        style: "display: inline-block; background-color: #6c757d; color: white; padding: 12px 25px; text-decoration: none; border-radius: 4px; font-size: 18px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" %>
+  <% end %>
 </div>
 
 <div id="posts" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; max-width: 1300px; margin: 0 auto; padding: 0 20px; padding-bottom: 50px; align-items: stretch;">

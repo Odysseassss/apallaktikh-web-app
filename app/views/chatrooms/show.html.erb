@@ -45,7 +45,7 @@
         </div>
 
         <%= f.button type: :submit, 
-          style: "background: #0081c9; color: white; border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 0;" do %>
+          style: "margin-top:16px;background: #0081c9; color: white; border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 0;" do %>
           <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16" style="transform: rotate(45deg);">
             <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
           </svg>
@@ -56,14 +56,11 @@
 </div>
 
 <script>
-  // άδειασμα του μηνύματος μετά την αποστολή
   document.addEventListener("turbo:submit-end", function(event) {
     if (event.detail.success) {
       event.target.reset();
     }
   });
-
-  // scroll down αυτόματα σε κάθε νέο μήνυμα
   document.addEventListener("turbo:before-stream-render", function(event) {
     const objDiv = document.getElementById("messages");
     if (objDiv) {

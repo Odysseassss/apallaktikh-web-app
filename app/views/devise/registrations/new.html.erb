@@ -2,7 +2,7 @@
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
-  
+
   <div class="field">
     <p><%= f.label :name %></p>
     <p><%= f.text_field :name, autofocus: true, autocomplete: "name" ,placeholder: "Name"%></p>
@@ -26,24 +26,23 @@
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
-  
-  <div class="omniauth-section" style="margin-top:50px;">
-    <%- if devise_mapping.omniauthable? %>
-      <%- resource_class.omniauth_providers.each do |provider| %>
-        <%= button_to omniauth_authorize_path(resource_name, provider), 
-            method: :post, 
-            data: { turbo: false }, 
-            class: "btn-social #{provider}" do %>
-          <div class="btn-content">
-             <% if provider.to_s.include?('google') %>
+
+<% end %> <div class="omniauth-section" style="margin-top:50px;">
+  <%- if devise_mapping.omniauthable? %>
+    <%- resource_class.omniauth_providers.each do |provider| %>
+      <%= button_to omniauth_authorize_path(resource_name, provider), 
+          method: :post, 
+          data: { turbo: false }, 
+          class: "btn-social #{provider}" do %>
+        <div class="btn-content">
+            <% if provider.to_s.include?('google') %>
               <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" width="18">
             <% elsif provider.to_s.include?('facebook') %>
-              <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Facebook_f_logo_%282021%29.svg" width="18">
+              <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Facebook_f_logo_(2021).svg" width="18">
             <% end %>
             Σύνδεση με <%= provider.to_s.titleize.gsub('Oauth2', '') %>
-          </div>
-        <% end %>
+        </div>
       <% end %>
     <% end %>
-  </div>
-<% end %>
+  <% end %>
+</div>

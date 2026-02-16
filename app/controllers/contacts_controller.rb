@@ -19,8 +19,14 @@ class ContactsController < ApplicationController
     
     if @contact.save
       respond_to do |format|
-        format.turbo_stream # <--- ΤΩΡΑ ΘΑ ΔΟΥΛΕΨΕΙ ΤΟ CREATE
         format.html { redirect_back fallback_location: root_path, notice: "Request sent!" }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "contact_status_#{params[:post_id]}",
+            partial: "posts/contact_button_status",
+            locals: { post: Post.find(params[:post_id]), current_user: current_user }
+          )
+        end
       end
     else
       redirect_back fallback_location: root_path, alert: "Something went wrong."

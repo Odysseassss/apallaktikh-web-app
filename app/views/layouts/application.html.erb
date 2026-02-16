@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
   </head>
 
-  <body>
+  <body display: flex; flex-direction: column;>
     <nav class="container-fluid" style="padding: 0 40px; border-bottom: 1px solid #FFFFFF22; display: flex; align-items: center; justify-content: space-between;">
 	  <ul>
 		<li>
@@ -34,7 +34,7 @@
     <% if user_signed_in? %>
       <div style="position: fixed; top: 15px; left: 250px; z-index: 999; display: flex; gap: 10px;">
         
-        <button onclick="togglePanel('contactsSidePanel')" style="background-color: #0081c9; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 10px rgba(0,0,0,0.3);">
+        <button onclick="togglePanel('contactsSidePanel')" style="margin-bottom:9px;background-color: #0081c9; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 10px rgba(0,0,0,0.3);">
           Contacts 
           <span id="contacts_badge_container">
 			  <% req_count = current_user.received_requests.where(status: 'pending').count %>
@@ -46,7 +46,7 @@
 		</span>
         </button>
 
-        <button onclick="togglePanel('chatSidePanel')" style="background-color: #0081c9; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 10px rgba(0,0,0,0.3);">
+        <button onclick="togglePanel('chatSidePanel')" style="margin-bottom:9px;background-color: #0081c9; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 10px rgba(0,0,0,0.3);">
           Chat 
         </button>
 		
@@ -182,7 +182,7 @@
                       <% end %>
                     </div>
                     <div style="color: #888; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                      <%= last_msg ? last_msg.content : "No messages yet..." %>
+                      <%= last_msg ? last_msg.content : "Say hi!👋" %>
                     </div>
                   </div>
                 </div>
@@ -231,7 +231,7 @@
           const overlay = document.getElementById('panelOverlay');
           const isOpened = panel.style.left === '0px';
 
-          closeAllPanels(); // Κλείνουμε όλα τα panels πρώτα
+          closeAllPanels(); // Κλείνουμε όλα τα panels 
 
           if (!isOpened) {
             panel.style.left = '0px';
@@ -249,5 +249,58 @@
     <main style="width: 100%; max-width: 1400px; margin: 0 auto; padding: 20px;">
       <%= yield %>
     </main>
+	
+		<footer style="background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); border-top: 1px solid rgba(0, 175, 255, 0.2); color: #888; padding: 60px 20px 20px 20px; font-family: 'Inter', sans-serif; ">
+			  <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;">
+				
+				<div>
+				  <h3 style="color: white; font-family: 'Orbitron', sans-serif; margin-bottom: 20px;">PORTAL <span style="color: #00afff;">v2.0</span></h3>
+				  <p style="font-size: 0.9rem; line-height: 1.6;">
+					Advanced communication interface for decentralized networking.
+				  </p>
+				  <div style="display: flex; gap: 15px; margin-top: 20px;">
+					<span style="color: #00afff; cursor: pointer;">🌐</span>
+					<span style="color: #00afff; cursor: pointer;">📱</span>
+					<span style="color: #00afff; cursor: pointer;">💻</span>
+				  </div>
+				</div>
+
+				<div>
+				  <h4 style="color: #00afff; margin-bottom: 20px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Navigation</h4>
+				  <ul style="list-style: none; padding: 0; font-size: 0.9rem; line-height: 2;">
+					<li><a href="#" style="color: #888; text-decoration: none;">System Status</a></li>
+					<li><a href="/posts" style="color: #888; text-decoration: none;">Public Archives</a></li>
+					<li><a href="#" style="color: #888; text-decoration: none;">Network Map</a></li>
+					<li><a href="#" style="color: #888; text-decoration: none;">User Directory</a></li>
+				  </ul>
+				</div>
+
+				<div>
+				  <h4 style="color: #00afff; margin-bottom: 20px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Protocol</h4>
+				  <ul style="list-style: none; padding: 0; font-size: 0.9rem; line-height: 2;">
+					<li><a href="#" style="color: #888; text-decoration: none;">Privacy Policy</a></li>
+					<li><a href="#" style="color: #888; text-decoration: none;">Terms of Service</a></li>
+					<li><a href="#" style="color: #888; text-decoration: none;">Security Audit</a></li>
+					<li><a href="#" style="color: #888; text-decoration: none;">API Docs</a></li>
+				  </ul>
+				</div>
+
+				<div>
+				  <h4 style="color: #00afff; margin-bottom: 20px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">System Updates</h4>
+				  <p style="font-size: 0.8rem; margin-bottom: 15px;">Subscribe to our encrypted newsletter.</p>
+				  <div style="display: flex;">
+					<input type="email" placeholder="Email Address" style="background: #111; border: 1px solid #333; padding: 10px; color: white; border-radius: 4px 0 0 4px; outline: none; width: 100%;">
+					<button style="background: #00afff; border: none; padding: 10px 15px; color: black; font-weight: bold; border-radius: 0 4px 4px 0; cursor: pointer;">OK</button>
+				  </div>
+				</div>
+
+			  </div>
+
+			  <div style="max-width: 1200px; margin: 40px auto 0 auto; padding-top: 20px; border-top: 1px solid #222; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;">
+				<p>&copy; 2026 Portal Systems Inc. All rights reserved.</p>
+				<p style="color: #4cd137;">● SYSTEM ONLINE</p>
+			  </div>
+		</footer>
+	  
   </body>
 </html>

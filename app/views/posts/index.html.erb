@@ -7,17 +7,24 @@
 <div style="max-width: 1300px; margin: 0 auto 20px auto; padding: 0 20px;">
   
   <%= form_with url: posts_path, method: :get, local: true, 
-      style: "display: flex; gap: 10px; align-items: center; width: 100%;" do |form| %>
+      style: "display: flex; gap: 10px; align-items: center; width: 100%; flex-wrap: wrap;" do |form| %>
 
     <%= form.text_field :search, 
         placeholder: "Search Posts...", 
         value: params[:search], 
-        style: "flex: 1; padding: 18px 30px; font-size: 20px; border: 1px solid #444; border-radius: 6px; background: #2c3035; color: white;" %>
+        style: "flex: 2; padding: 18px 30px; font-size: 20px; border: 1px solid #444; border-radius: 6px; background: #2c3035; color: white;" %>
+
+    <%= form.select :category, 
+        options_from_collection_for_select(@categories, :id, :name, params[:category]), 
+        { include_blank: "All Categories" }, 
+        { style: "flex: 1; padding: 18px 20px; font-size: 20px; border: 1px solid #444; border-radius: 6px; background: #2c3035; color: white; cursor: pointer; min-width: 200px;" } 
+    %>
 
     <%= form.submit "Search", 
         style: "padding: 18px 30px; font-size: 18px; background-color: #0081c9; color: white; border: none; border-radius: 6px; cursor: pointer;" %>
 
-  <% end %>
+  <% end %> 
+  
 </div>
 
 

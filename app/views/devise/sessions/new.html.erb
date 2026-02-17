@@ -1,7 +1,18 @@
 <h2 style="text-align: center; font-family: 'Montserrat', sans-serif;">Log In</h2>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "login-form" }) do |f| %>
-  
+<% if flash[:alert] %>
+  <div style="background-color: #cc0000; color: white; padding: 15px; margin-bottom: 15px; border-radius: 5px; text-align: center; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<% if flash[:notice] %>
+  <div style="background-color: #28a745; color: white; padding: 15px; margin-bottom: 15px; border-radius: 5px; text-align: center; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "login-form", novalidate: true, data: { turbo: false } }) do |f| %>  
   <div class="field">
     <%= f.label :email %>
     <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email" %>
@@ -29,7 +40,9 @@
     <%= f.submit "Log in", class: "login-submit" %>
   </div>
 
-<% end %> <div class="omniauth-section" style="margin-top:50px;">
+<% end %> 
+
+<div class="omniauth-section" style="margin-top:50px;">
   <%- if devise_mapping.omniauthable? %>
     <%- resource_class.omniauth_providers.each do |provider| %>
       <%= button_to omniauth_authorize_path(resource_name, provider), 

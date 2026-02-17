@@ -1,14 +1,13 @@
 <% if resource.errors.any? %>
-  <div id="error_explanation" data-turbo-temporary>
-    <h2>
-      <%= I18n.t("errors.messages.not_saved",
-                 count: resource.errors.count,
-                 resource: resource.class.model_name.human.downcase)
-       %>
-    </h2>
-    <ul>
+  <div id="error_explanation" style="background-color: #cc0000; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+    
+    <h4 style="margin-top: 0; font-size: 18px; margin-bottom: 10px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 10px;">
+      Error:
+    </h4>
+    
+    <ul style="margin-bottom: 0; padding-left: 20px; list-style-type: square;">
       <% resource.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <li style="margin-bottom: 5px; font-size: 15px;"><%= message %></li>
       <% end %>
     </ul>
   </div>

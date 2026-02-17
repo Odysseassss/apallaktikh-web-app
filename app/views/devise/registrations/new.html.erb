@@ -1,46 +1,49 @@
 <h2 style="text-align: center;font-family: 'Montserrat', sans-serif;">Sign up</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { novalidate: true, data: { turbo: false } }) do |f| %>  
   <%= render "devise/shared/error_messages", resource: resource %>
-
+  
   <div class="field">
     <p><%= f.label :name %></p>
-    <p><%= f.text_field :name, autofocus: true, autocomplete: "name" ,placeholder: "Name"%></p>
+    <p><%= f.text_field :name, autofocus: true, autocomplete: "name", placeholder: "Name" %></p>
   </div>
 
   <div class="field">
     <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" ,placeholder: "Email"%></p>
+    <p><%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email" %></p>
   </div>
 
   <div class="field">
     <p><%= f.label :password %></p>
-    <p><%= f.password_field :password, autocomplete: "new-password",placeholder: "Password" %></p>
+    <p><%= f.password_field :password, autocomplete: "new-password", placeholder: "Password (8+ chars)" %></p>
   </div>
 
   <div class="field">
     <p><%= f.label :password_confirmation %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" ,placeholder: "Confirm Password"%></p>
+    <p><%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm Password" %></p>
   </div>
 
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
 
-<% end %> <div class="omniauth-section" style="margin-top:50px;">
+<% end %> 
+
+<div class="omniauth-section" style="margin-top:50px;">
   <%- if devise_mapping.omniauthable? %>
     <%- resource_class.omniauth_providers.each do |provider| %>
       <%= button_to omniauth_authorize_path(resource_name, provider), 
           method: :post, 
           data: { turbo: false }, 
-          class: "btn-social #{provider}" do %>
-        <div class="btn-content">
+          class: "btn-social #{provider}",
+          style: "background: #db4437; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px;" do %>
+        <div class="btn-content" style="display: flex; align-items: center; gap: 10px;">
             <% if provider.to_s.include?('google') %>
               <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" width="18">
             <% elsif provider.to_s.include?('facebook') %>
-              <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Facebook_f_logo_(2021).svg" width="18">
+              <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Facebook_f_logo_%282021%29.svg" width="18">
             <% end %>
-            Σύνδεση με <%= provider.to_s.titleize.gsub('Oauth2', '') %>
+            <span>Σύνδεση με <%= provider.to_s.titleize.gsub('Oauth2', '') %></span>
         </div>
       <% end %>
     <% end %>
